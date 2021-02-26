@@ -4,7 +4,7 @@
   "description": "Chrome extension program to check market price.",
   "scripts": {
     "build": "npm run build-popup",
-    "build-popup": "parcel build src/popup/index.html -d dist/popup --no-source-maps --public-url ./"
+    "build-popup": "parcel build src/popup/index.html -d extension/popup --no-source-maps --public-url ./"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
   },
   "homepage": "https://github.com/JeHwanYoo/q-stock#readme",
   "dependencies": {
-    "vue": "^2.6.12"
+    "axios": "^0.21.1",
+    "vue": "^2.6.12",
+    "vue-property-decorator": "^9.1.2"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.2.0",

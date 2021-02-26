@@ -1,0 +1,7 @@
+function queryCurrentMarketPrice() {
+    
+}
+
+export {
+    queryCurrentMarketPrice
+}
