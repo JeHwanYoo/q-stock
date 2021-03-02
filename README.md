@@ -2,6 +2,8 @@
 
 Chrome extension program to check market price.
 
+Get information about Korean stocks from https://kasp.krx.co.kr/contents/02/02010000/ASP02010000.jsp
+
 # Installation
 
 This is a project under development.

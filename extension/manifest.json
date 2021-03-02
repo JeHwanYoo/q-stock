@@ -17,6 +17,7 @@
     }
   },
   "permissions": ["webRequest"],
+  "host_permissions": ["http://asp1.krx.co.kr/"],
   "icons": {
     "16": "./icons/16x16.png",
     "32": "./icons/32x32.png",
