@@ -12,7 +12,7 @@ interface StockModel {
  * 5: 하락
  */
 
-export interface DailyStock {
+interface DailyStock {
   date: Date; // 일자
   dayEndPrice: number; // 종가
   dungrak: string; // 등락
@@ -24,7 +24,8 @@ export interface DailyStock {
   amount: number; // 거래대금
 }
 
-export interface StockInfo {
+interface StockInfo {
+  code: string; // 종목 코드
   name: string; // 종목 이름
   price: number; // 현재 주가
   dungrak: string; // 등락
@@ -41,6 +42,12 @@ export interface StockInfo {
   high52: number; // 52주 신고가
   low52: number; // 52주 신저가
   per: number; // per 수치
+  amount: number; // 상장주식주
+}
+
+export interface Stock {
+  dailyStocks: DailyStock[],
+  stockInfo: StockInfo,
 }
 
 const parser = new DOMParser();
@@ -61,12 +68,11 @@ export function parseXMLToDOM(xml: string) {
   return parser.parseFromString(xml, "text/html");
 }
 
-export function parseXMLToModel(xml: string) {
+export function parseXMLToModel(code: string, xml: string) {
   const dom = parseXMLToDOM(xml);
-  const dailyStocks: Array<any> = [];
-  const stockInfo: StockInfo = null;
-
+  const dailyStocks: Array<DailyStock> = [];
   const dsDOM = dom.querySelectorAll("DailyStock");
+
   dsDOM.forEach((el) => {
     // 날짜 파싱
     const _date = findAttribute(el, "day_Date");
@@ -89,5 +95,29 @@ export function parseXMLToModel(xml: string) {
     });
   });
 
-  return dailyStocks;
+  const stockInfoElement = dom.querySelector("TBL_StockInfo");
+
+  return {
+    dailyStocks,
+    stockInfo: {
+      code,
+      name: findAttribute(stockInfoElement, "JongName"),
+      price: toNumber(stockInfoElement, "CurJuka"),
+      dungrak: findAttribute(stockInfoElement, "DungRak"),
+      debi: toNumber(stockInfoElement, "Debi"),
+      prev: toNumber(stockInfoElement, "PrevJuka"),
+      volume: toNumber(stockInfoElement, "Volume"),
+      money: toNumber(stockInfoElement, "Money"),
+      start: toNumber(stockInfoElement, "StartJuka"),
+      high: toNumber(stockInfoElement, "HighJuka"),
+      low: toNumber(stockInfoElement, "LowJuka"),
+      up: toNumber(stockInfoElement, "UpJuka"),
+      down: toNumber(stockInfoElement, "DownJuka"),
+      face: toNumber(stockInfoElement, "FaceJuka"),
+      high52: toNumber(stockInfoElement, "High52"),
+      low52: toNumber(stockInfoElement, "Low52"),
+      per: toNumber(stockInfoElement, "Per"),
+      amount: toNumber(stockInfoElement, "Amount"),
+    }
+  };
 }
